@@ -17,7 +17,7 @@ class Matrix {
         }
       }
     }
-    this.data = data;
+    this.data = data.map((row) => [...row]);
     this.rows = data.length;
     this.cols = cols;
   }
@@ -30,6 +30,10 @@ class Matrix {
       throw new RangeError('Column index is out of range');
     }
     return this.data[i][j];
+  }
+
+  toArray() {
+    return this.data.map((row) => [...row]);
   }
 }
 
