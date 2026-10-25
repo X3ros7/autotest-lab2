@@ -21,6 +21,16 @@ class Matrix {
     this.rows = data.length;
     this.cols = cols;
   }
+
+  get(i, j) {
+    if (!Number.isInteger(i) || i < 0 || i >= this.rows) {
+      throw new RangeError('Row index is out of range');
+    }
+    if (!Number.isInteger(j) || j < 0 || j >= this.cols) {
+      throw new RangeError('Column index is out of range');
+    }
+    return this.data[i][j];
+  }
 }
 
 module.exports = Matrix;
