@@ -74,6 +74,26 @@ class Matrix {
       row.every((value, j) => Math.abs(value - other.data[i][j]) <= epsilon)
     );
   }
+
+  add(other) {
+    if (!(other instanceof Matrix)) {
+      throw new TypeError('Argument must be a Matrix');
+    }
+    if (this.rows !== other.rows || this.cols !== other.cols) {
+      throw new RangeError('Matrices must have the same shape');
+    }
+    return new Matrix(this.data.map((row, i) => row.map((value, j) => value + other.data[i][j])));
+  }
+
+  subtract(other) {
+    if (!(other instanceof Matrix)) {
+      throw new TypeError('Argument must be a Matrix');
+    }
+    if (this.rows !== other.rows || this.cols !== other.cols) {
+      throw new RangeError('Matrices must have the same shape');
+    }
+    return new Matrix(this.data.map((row, i) => row.map((value, j) => value - other.data[i][j])));
+  }
 }
 
 module.exports = Matrix;
