@@ -1,3 +1,11 @@
+# Commands
+
+```sh
+npm install
+npm test
+npm run test:watch
+```
+
 # Відповіді на контрольні запитання
 
 ## 1. Наведіть особливості TDD підходу
