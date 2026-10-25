@@ -62,6 +62,18 @@ class Matrix {
     }
     return new Matrix(data);
   }
+
+  equals(other, epsilon = 0) {
+    if (!(other instanceof Matrix)) {
+      return false;
+    }
+    if (this.rows !== other.rows || this.cols !== other.cols) {
+      return false;
+    }
+    return this.data.every((row, i) =>
+      row.every((value, j) => Math.abs(value - other.data[i][j]) <= epsilon)
+    );
+  }
 }
 
 module.exports = Matrix;
