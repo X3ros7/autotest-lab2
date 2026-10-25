@@ -76,23 +76,27 @@ class Matrix {
   }
 
   add(other) {
-    if (!(other instanceof Matrix)) {
-      throw new TypeError('Argument must be a Matrix');
-    }
-    if (this.rows !== other.rows || this.cols !== other.cols) {
-      throw new RangeError('Matrices must have the same shape');
-    }
-    return new Matrix(this.data.map((row, i) => row.map((value, j) => value + other.data[i][j])));
+    return this.#combine(other, (a, b) => a + b);
   }
 
   subtract(other) {
-    if (!(other instanceof Matrix)) {
-      throw new TypeError('Argument must be a Matrix');
-    }
+    return this.#combine(other, (a, b) => a - b);
+  }
+
+  #combine(other, operation) {
+    Matrix.#assertMatrix(other);
     if (this.rows !== other.rows || this.cols !== other.cols) {
       throw new RangeError('Matrices must have the same shape');
     }
-    return new Matrix(this.data.map((row, i) => row.map((value, j) => value - other.data[i][j])));
+    return new Matrix(
+      this.data.map((row, i) => row.map((value, j) => operation(value, other.data[i][j])))
+    );
+  }
+
+  static #assertMatrix(value) {
+    if (!(value instanceof Matrix)) {
+      throw new TypeError('Argument must be a Matrix');
+    }
   }
 
   scale(factor) {
@@ -103,9 +107,7 @@ class Matrix {
   }
 
   multiply(other) {
-    if (!(other instanceof Matrix)) {
-      throw new TypeError('Argument must be a Matrix');
-    }
+    Matrix.#assertMatrix(other);
     if (this.cols !== other.rows) {
       throw new RangeError('Number of columns must equal the number of rows of the other matrix');
     }
