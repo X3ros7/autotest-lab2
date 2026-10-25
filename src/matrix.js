@@ -158,7 +158,11 @@ class Matrix {
     if (this.rows === 1) {
       return this.data[0][0];
     }
-    return this.data[0][0] * this.data[1][1] - this.data[0][1] * this.data[1][0];
+    let sum = 0;
+    for (let j = 0; j < this.cols; j++) {
+      sum += this.data[0][j] * this.cofactor(0, j);
+    }
+    return sum;
   }
 
   minor(i, j) {
