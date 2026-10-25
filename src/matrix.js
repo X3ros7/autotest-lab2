@@ -23,13 +23,17 @@ class Matrix {
   }
 
   get(i, j) {
+    this.#assertIndexes(i, j);
+    return this.data[i][j];
+  }
+
+  #assertIndexes(i, j) {
     if (!Number.isInteger(i) || i < 0 || i >= this.rows) {
       throw new RangeError('Row index is out of range');
     }
     if (!Number.isInteger(j) || j < 0 || j >= this.cols) {
       throw new RangeError('Column index is out of range');
     }
-    return this.data[i][j];
   }
 
   toArray() {
@@ -158,7 +162,7 @@ class Matrix {
   }
 
   minor(i, j) {
-    this.get(i, j);
+    this.#assertIndexes(i, j);
     if (this.rows === 1 || this.cols === 1) {
       throw new RangeError('Minor of a matrix with a single row or column is empty');
     }
