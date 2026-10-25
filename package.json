@@ -1,0 +1,16 @@
+{
+  "name": "autotest-lab2",
+  "version": "1.0.0",
+  "description": "Matrix operations library developed with TDD using Mocha and Chai",
+  "main": "src/matrix.js",
+  "private": true,
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha --watch"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "mocha": "^12.0.3"
+  }
+}
