@@ -35,6 +35,33 @@ class Matrix {
   toArray() {
     return this.data.map((row) => [...row]);
   }
+
+  static zeros(rows, cols) {
+    return Matrix.#filled(rows, cols, () => 0);
+  }
+
+  static ones(rows, cols) {
+    return Matrix.#filled(rows, cols, () => 1);
+  }
+
+  static identity(size) {
+    return Matrix.#filled(size, size, (i, j) => (i === j ? 1 : 0));
+  }
+
+  static #filled(rows, cols, valueAt) {
+    if (!Number.isInteger(rows) || rows < 1 || !Number.isInteger(cols) || cols < 1) {
+      throw new RangeError('Matrix size must be made of positive integers');
+    }
+    const data = [];
+    for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < cols; j++) {
+        row.push(valueAt(i, j));
+      }
+      data.push(row);
+    }
+    return new Matrix(data);
+  }
 }
 
 module.exports = Matrix;
