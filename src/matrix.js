@@ -156,6 +156,21 @@ class Matrix {
     }
     return this.data[0][0] * this.data[1][1] - this.data[0][1] * this.data[1][0];
   }
+
+  minor(i, j) {
+    this.get(i, j);
+    if (this.rows === 1 || this.cols === 1) {
+      throw new RangeError('Minor of a matrix with a single row or column is empty');
+    }
+    return new Matrix(
+      this.data.filter((_, r) => r !== i).map((row) => row.filter((_, c) => c !== j))
+    );
+  }
+
+  cofactor(i, j) {
+    const sign = (i + j) % 2 === 0 ? 1 : -1;
+    return sign * this.minor(i, j).determinant();
+  }
 }
 
 module.exports = Matrix;
