@@ -125,6 +125,14 @@ class Matrix {
     }
     return new Matrix(data);
   }
+
+  transpose() {
+    const data = [];
+    for (let j = 0; j < this.cols; j++) {
+      data.push(this.data.map((row) => row[j]));
+    }
+    return new Matrix(data);
+  }
 }
 
 module.exports = Matrix;
