@@ -148,6 +148,14 @@ class Matrix {
       throw new RangeError('Matrix must be square');
     }
   }
+
+  determinant() {
+    this.#assertSquare();
+    if (this.rows === 1) {
+      return this.data[0][0];
+    }
+    return this.data[0][0] * this.data[1][1] - this.data[0][1] * this.data[1][0];
+  }
 }
 
 module.exports = Matrix;
