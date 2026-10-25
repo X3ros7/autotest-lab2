@@ -101,6 +101,28 @@ class Matrix {
     }
     return new Matrix(this.data.map((row) => row.map((value) => value * factor)));
   }
+
+  multiply(other) {
+    if (!(other instanceof Matrix)) {
+      throw new TypeError('Argument must be a Matrix');
+    }
+    if (this.cols !== other.rows) {
+      throw new RangeError('Number of columns must equal the number of rows of the other matrix');
+    }
+    const data = [];
+    for (let i = 0; i < this.rows; i++) {
+      const row = [];
+      for (let j = 0; j < other.cols; j++) {
+        let sum = 0;
+        for (let k = 0; k < this.cols; k++) {
+          sum += this.data[i][k] * other.data[k][j];
+        }
+        row.push(sum);
+      }
+      data.push(row);
+    }
+    return new Matrix(data);
+  }
 }
 
 module.exports = Matrix;
