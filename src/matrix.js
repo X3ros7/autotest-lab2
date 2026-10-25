@@ -133,6 +133,21 @@ class Matrix {
     }
     return new Matrix(data);
   }
+
+  isSquare() {
+    return this.rows === this.cols;
+  }
+
+  trace() {
+    this.#assertSquare();
+    return this.data.reduce((sum, row, i) => sum + row[i], 0);
+  }
+
+  #assertSquare() {
+    if (!this.isSquare()) {
+      throw new RangeError('Matrix must be square');
+    }
+  }
 }
 
 module.exports = Matrix;
