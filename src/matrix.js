@@ -1,4 +1,8 @@
 class Matrix {
+  #data;
+  #rows;
+  #cols;
+
   constructor(data) {
     if (!Array.isArray(data) || data.length === 0) {
       throw new TypeError('Matrix data must be a non-empty two-dimensional array');
@@ -17,14 +21,22 @@ class Matrix {
         }
       }
     }
-    this.data = data.map((row) => [...row]);
-    this.rows = data.length;
-    this.cols = cols;
+    this.#data = data.map((row) => [...row]);
+    this.#rows = data.length;
+    this.#cols = cols;
+  }
+
+  get rows() {
+    return this.#rows;
+  }
+
+  get cols() {
+    return this.#cols;
   }
 
   get(i, j) {
     this.#assertIndexes(i, j);
-    return this.data[i][j];
+    return this.#data[i][j];
   }
 
   #assertIndexes(i, j) {
@@ -37,7 +49,7 @@ class Matrix {
   }
 
   toArray() {
-    return this.data.map((row) => [...row]);
+    return this.#data.map((row) => [...row]);
   }
 
   static zeros(rows, cols) {
@@ -74,8 +86,8 @@ class Matrix {
     if (this.rows !== other.rows || this.cols !== other.cols) {
       return false;
     }
-    return this.data.every((row, i) =>
-      row.every((value, j) => Math.abs(value - other.data[i][j]) <= epsilon)
+    return this.#data.every((row, i) =>
+      row.every((value, j) => Math.abs(value - other.#data[i][j]) <= epsilon)
     );
   }
 
@@ -93,7 +105,7 @@ class Matrix {
       throw new RangeError('Matrices must have the same shape');
     }
     return new Matrix(
-      this.data.map((row, i) => row.map((value, j) => operation(value, other.data[i][j])))
+      this.#data.map((row, i) => row.map((value, j) => operation(value, other.#data[i][j])))
     );
   }
 
@@ -107,7 +119,7 @@ class Matrix {
     if (typeof factor !== 'number' || !Number.isFinite(factor)) {
       throw new TypeError('Factor must be a finite number');
     }
-    return new Matrix(this.data.map((row) => row.map((value) => value * factor)));
+    return new Matrix(this.#data.map((row) => row.map((value) => value * factor)));
   }
 
   multiply(other) {
@@ -121,7 +133,7 @@ class Matrix {
       for (let j = 0; j < other.cols; j++) {
         let sum = 0;
         for (let k = 0; k < this.cols; k++) {
-          sum += this.data[i][k] * other.data[k][j];
+          sum += this.#data[i][k] * other.#data[k][j];
         }
         row.push(sum);
       }
@@ -133,7 +145,7 @@ class Matrix {
   transpose() {
     const data = [];
     for (let j = 0; j < this.cols; j++) {
-      data.push(this.data.map((row) => row[j]));
+      data.push(this.#data.map((row) => row[j]));
     }
     return new Matrix(data);
   }
@@ -144,7 +156,7 @@ class Matrix {
 
   trace() {
     this.#assertSquare();
-    return this.data.reduce((sum, row, i) => sum + row[i], 0);
+    return this.#data.reduce((sum, row, i) => sum + row[i], 0);
   }
 
   #assertSquare() {
@@ -156,11 +168,11 @@ class Matrix {
   determinant() {
     this.#assertSquare();
     if (this.rows === 1) {
-      return this.data[0][0];
+      return this.#data[0][0];
     }
     let sum = 0;
     for (let j = 0; j < this.cols; j++) {
-      sum += this.data[0][j] * this.cofactor(0, j);
+      sum += this.#data[0][j] * this.cofactor(0, j);
     }
     return sum;
   }
@@ -171,7 +183,7 @@ class Matrix {
       throw new RangeError('Minor of a matrix with a single row or column is empty');
     }
     return new Matrix(
-      this.data.filter((_, r) => r !== i).map((row) => row.filter((_, c) => c !== j))
+      this.#data.filter((_, r) => r !== i).map((row) => row.filter((_, c) => c !== j))
     );
   }
 
@@ -189,7 +201,7 @@ class Matrix {
     if (this.rows === 1) {
       return new Matrix([[1 / det]]);
     }
-    const cofactors = this.data.map((row, i) => row.map((_, j) => this.cofactor(i, j)));
+    const cofactors = this.#data.map((row, i) => row.map((_, j) => this.cofactor(i, j)));
     return new Matrix(cofactors).transpose().scale(1 / det);
   }
 }
