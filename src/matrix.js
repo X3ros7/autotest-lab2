@@ -179,6 +179,19 @@ class Matrix {
     const sign = (i + j) % 2 === 0 ? 1 : -1;
     return sign * this.minor(i, j).determinant();
   }
+
+  inverse() {
+    this.#assertSquare();
+    const det = this.determinant();
+    if (det === 0) {
+      throw new Error('Matrix is singular');
+    }
+    if (this.rows === 1) {
+      return new Matrix([[1 / det]]);
+    }
+    const cofactors = this.data.map((row, i) => row.map((_, j) => this.cofactor(i, j)));
+    return new Matrix(cofactors).transpose().scale(1 / det);
+  }
 }
 
 module.exports = Matrix;
