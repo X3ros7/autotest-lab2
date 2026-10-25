@@ -94,6 +94,13 @@ class Matrix {
     }
     return new Matrix(this.data.map((row, i) => row.map((value, j) => value - other.data[i][j])));
   }
+
+  scale(factor) {
+    if (typeof factor !== 'number' || !Number.isFinite(factor)) {
+      throw new TypeError('Factor must be a finite number');
+    }
+    return new Matrix(this.data.map((row) => row.map((value) => value * factor)));
+  }
 }
 
 module.exports = Matrix;
